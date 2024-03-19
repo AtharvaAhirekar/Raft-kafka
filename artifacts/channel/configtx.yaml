@@ -101,25 +101,25 @@ Application: &ApplicationDefaults
 
 Orderer: &OrdererDefaults
 
-    OrdererType: kafka
+    OrdererType: etcdraft
+
+    EtcdRaft:
+        Consenters:
+        - Host: orderer.example.com
+          Port: 7050
+          ClientTLSCert: crypto-config/ordererOrganizations/example.com/orderers/orderer.example.com/tls/server.crt
+          ServerTLSCert: crypto-config/ordererOrganizations/example.com/orderers/orderer.example.com/tls/server.crt
 
     Addresses:
         - orderer.example.com:7050
 
+
     BatchTimeout: 2s
 
-    # Make the changes here
     BatchSize:
         MaxMessageCount: 10
         AbsoluteMaxBytes: 99 MB
         PreferredMaxBytes: 512 KB
-
-    Kafka:
-        Brokers:
-            - kafka0:9092
-            - kafka1:9092
-            - kafka2:9092
-            - kafka3:9092
 
     Organizations:
 
@@ -170,6 +170,38 @@ Profiles:
             <<: *ChannelCapabilities
         Orderer:
             <<: *OrdererDefaults
+            OrdererType: etcdraft
+            EtcdRaft:
+                Consenters:
+                - Host: orderer.example.com
+                  Port: 7050
+                  ClientTLSCert: crypto-config/ordererOrganizations/example.com/orderers/orderer.example.com/tls/server.crt
+                  ServerTLSCert: crypto-config/ordererOrganizations/example.com/orderers/orderer.example.com/tls/server.crt
+                - Host: orderer2.example.com
+                  Port: 8050
+                  ClientTLSCert: crypto-config/ordererOrganizations/example.com/orderers/orderer2.example.com/tls/server.crt
+                  ServerTLSCert: crypto-config/ordererOrganizations/example.com/orderers/orderer2.example.com/tls/server.crt
+                - Host: orderer3.example.com
+                  Port: 9050
+                  ClientTLSCert: crypto-config/ordererOrganizations/example.com/orderers/orderer3.example.com/tls/server.crt
+                  ServerTLSCert: crypto-config/ordererOrganizations/example.com/orderers/orderer3.example.com/tls/server.crt
+                # - Host: orderer.example4.com
+                #   Port: 10050
+                #   ClientTLSCert: crypto-config/ordererOrganizations/example.com/orderers/orderer.example4.com/tls/server.crt
+                #   ServerTLSCert: crypto-config/ordererOrganizations/example.com/orderers/orderer.example4.com/tls/server.crt
+                # - Host: orderer.example5.com
+                #   Port: 11050
+                #   ClientTLSCert: crypto-config/ordererOrganizations/example.com/orderers/orderer.example5.com/tls/server.crt
+                #   ServerTLSCert: crypto-config/ordererOrganizations/example.com/orderers/orderer.example5.com/tls/server.crt    
+
+    
+            Addresses:
+                - orderer.example.com:7050
+                - orderer2.example.com:8050
+                - orderer3.example.com:9050
+                # - orderer.example3.com:10050
+                # - orderer.example3.com:11050
+
             Organizations:
             - *OrdererOrg
             Capabilities:
